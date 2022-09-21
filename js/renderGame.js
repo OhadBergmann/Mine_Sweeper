@@ -37,7 +37,6 @@ function randerBoard(){
             }
         }
     } else {
-
         gGameRenderer.selectors.gameBoardEl.style.backgroundColor = 'rgb(184, 184, 184)';
         for (let i = 0; i < gGameModle.level.size; i++) {
                 strHTML += '<tr class="row">';
@@ -45,7 +44,6 @@ function randerBoard(){
                 posStr =  i + '-' + j;
                 currCell = gGameModle.board[i][j];
                 currCell.isVisible = false;
-
                 strHTML += '<td class="cell" data-pos="'+ posStr +'" onmousedown="mouseClicked(event,this)">' 
                 + '<img src="img/cell-covered.png"></td>';
             }
@@ -68,7 +66,6 @@ function setGameRenderer (){
     gGameRenderer.selectors.timerEl = document.querySelector('.timer .seconds');
     gGameRenderer.selectors.diffStrEl = document.querySelector('.difficulty-str');
 
-
      /* Debug setGameRenderer => */// console.log(gGameRenderer);
 }
 
@@ -80,11 +77,12 @@ function uncoverdNegs (pos){
             currPos = {i: pos.i + i,j: pos.j + j};
     
             if(currPos.i >= 0 && currPos.i < gGameModle.level.size && currPos.j >= 0 && currPos.j < gGameModle.level.size 
-                && !gGameModle.board[currPos.i][currPos.j].isMine && (currPos.i !== 0 && currPos.j !== 0)){
+                && !gGameModle.board[currPos.i][currPos.j].isMine){
                    
                     gGameModle.board[currPos.i][currPos.j].isVisible = true;
-                    randerCell(currPos);
                     gGameModle.safeCells.splice(gGameModle.safeCells.indexOf(currPos));
+                    randerCell(currPos);
+
                     
             }
         }

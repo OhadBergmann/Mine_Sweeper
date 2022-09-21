@@ -76,7 +76,6 @@ function cellClicked(element){
             gGameModle.board[currPos.i][currPos.j].isMine = true;
             updateCellNegs (currPos);
             gGameModle.safeCells.splice(gGameModle.safeCells.indexOf(currPos),1);
-            
             setTimeout(randerBoard,50);
         } else {
             checkGameOver(element);
@@ -132,7 +131,6 @@ function revealCell(element) {
     var currPos = cellPosFromElement(element);
     var currCell = gGameModle.board[currPos.i][currPos.j];
     gGameModle.safeCells.splice(gGameModle.safeCells.indexOf(currPos),1);
-    
     currCell.isVisible = true;
     randerCell(currPos);
 }
@@ -151,9 +149,6 @@ function layMines (num){
         j = getRandomInt(0,gGameModle.level.size);
         if(!gGameModle.board[i][j].isMine){
             gGameModle.board[i][j].isMine = true;
-            console.log('safeCells:' + gGameModle.safeCells.length + 'have mine: ' 
-            + gGameModle.board[currPos.i][currPos.j].isMine + '| or double: ' + currPos.i + '' + currPos.j);
-            console.log('safeCells', gGameModle.safeCells.length);
             updateCellNegs({i,j});
         }
         num--;
