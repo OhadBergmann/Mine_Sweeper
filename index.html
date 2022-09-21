@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine Sweeper By Ohad Bergmann</title>
+    <link rel="stylesheet" href="css/main_page.css">
+</head>
+<body onload="initGame()">
+
+    <div class="gameboard">
+        <div class="innerheader">Mine Sweeper</div>
+        <div class="score-board">
+            <div class="score">0000</div>
+        </div>
+        <div class="smiley start">
+            <img onclick="initGame()" src="img/Smiley-start.png" alt=":)">
+        </div>
+        <div class="timer">
+            <div class="seconds"> 0:00</div> 
+        </div>
+        <div class="table-area">
+            <table cellspacing="0">
+
+            </table>
+        </div>
+        <div class="mine-bank">
+            <div class="mine-counter">
+                0
+            </div>
+            <table class="mines-table">
+
+            </table>
+        </div>
+        <div class="flags-bank">
+            <div class="flags-counter">
+                0
+            </div>
+            <table class="flags-table">
+
+            </table>
+        </div>
+
+    </div>
+    
+    <script src="js/gameModle.js"></script>
+    <script src="js/renderGame.js"></script>
+    <script src="js/utilities.js"></script>
+</body>
+</html>
