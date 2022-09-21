@@ -5,13 +5,13 @@ body{
 .gameboard{
 
     position: absolute;
-    height: 60%;
-    width: 50%;
+    height: 80%;
+    width: 80%;
     min-height: 900px;
     min-width: 900px;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-70%);
+    transform: translate(-50%,-60%);
     border-radius: 3%;
     border: 4px rgb(80, 80, 80) groove;
     background-color: rgb(184, 184, 184);
@@ -64,15 +64,72 @@ table{
     border: 4px rgb(80, 80, 80) groove;
 }
 
-.smiley.start{
-    position: absolute;
-    height: 7.5%;
-    width: 6.5%;
-    left: 46.25%;
-    top: 26%;
-    border-radius: 50%;
 
+.chose-difficulty{
+    position: absolute;
+    height: 15%;
+    width: 15%;
+    top: 33%;
+    left: 6%;
+    border-radius: 3%;
     border: 4px rgb(80, 80, 80) groove;
+    background-color: rgb(184, 184, 184);
+
+} 
+
+.difficulty-btn-left{
+    position: absolute;
+    height: 42%;
+    width: 40%;
+    top: 5%;
+    left: 5%;
+    border-radius: 7%;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border: 4px rgb(80, 80, 80) groove;
+    background-color: rgb(220, 200, 10);
+    font-size: 40px;
+
+}
+
+.difficulty-btn-left:hover{
+    transition: all 0.3s;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgb(220, 90, 10);
+}
+
+.difficulty-btn-right{
+    position: absolute;
+    height: 42%;
+    width: 40%;
+    top: 5%;
+    left: 55%;
+    border-radius: 7%;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border: 4px rgb(80, 80, 80) groove;
+    background-color: rgb(220, 200, 10);
+    font-size: 40px;
+}
+
+.difficulty-btn-right:hover{
+    transition: all 0.3s;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    background-color: rgb(220, 90, 10);
+}
+
+
+.difficulty-str{
+    position: absolute;
+    height: 42%;
+    width: 80%;
+    top: 62%;
+    left: 10%;
+    color: blueviolet;
+    text-align: center;
+    font-size: 35px;
 }
 
 .timer{
@@ -174,6 +231,17 @@ table{
     color: rgb(217, 217, 217);
     font-size: 40px;
     text-align: center;
+}
+
+.smiley.start{
+    position: absolute;
+    height: 7.5%;
+    width: 6.5%;
+    left: 46.25%;
+    top: 15%;
+    border-radius: 50%;
+
+    border: 4px rgb(80, 80, 80) groove;
 }
 
 .smiley.start:hover{

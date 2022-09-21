@@ -1,8 +1,23 @@
 'use strict'
 
+function cellPosFromElement (element){
+    var dataStr = element.dataset.pos.split('-');
+    return{i: +dataStr[0],j: +dataStr[1]}
+
+    // TODO: Use befor the return statement
+    /* Debug setGameRenderer => */// console.log(cellPosFromElement(document.querySelector('.cell')));
+}
+
 function disableContextMenu(){
     window.addEventListener('contextmenu', function (e) { 
         e.preventDefault(); 
       }, false);
     
 }
+
+//NOTE: The maximum is exclusive and the minimum is inclusive
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); 
+  }

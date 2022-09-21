@@ -1,61 +1,72 @@
 'use strict'
 
-var gGameModle;
+var gGameModle = {};
+gGameModle.gameMode = 'Manual';
 
 function initGame (){
-    resetVariables(4,2,'manual');
-    gGameModle.board = buildBoard();
-    generateEmptyBorad ();
+    resetVariables(gGameModle.gameMode);
     handdleGameMode();
-    disableContextMenu()
+    gGameModle.board = buildBoard();
+    setGameRenderer();
+    if(!gGameModle.isManual){
+        createSafeCells();
+        randerBoard();
+        layMines ( gGameModle.level.minesNum);
+
+        }
+    else {
+        createSafeCells(); 
+        generateEmptyBorad ();
+    }
+    disableContextMenu();     
 }
 
-function resetVariables(size, minesamount, gameMode) {
-    gGameModle = {};
-    gGameModle.isOn = true;
-    gGameModle.visiblesCounter = 0;
-    gGameModle.flagsCount = minesamount;
-    gGameModle.secPassed = 0;
-    gGameModle.gameMode = gameMode;
 
-    gGameModle.level = {
-        size: size, 
-        minesNum: minesamount
-    } 
-
-    /* Debug resetVariables => */// console.log(gGameModle);
-
-}
 
 function buildBoard() {
-
     var currBoard = [];
     for (let i = 0; i < gGameModle.level.size; i++) {
         currBoard[i] = [];
         for (let j = 0; j < gGameModle.level.size; j++) {
-            currBoard[i][j] = { 
-                negsMinesCount: 0,
-                isVisible: false,
-                isMine: false,
-                hasFlag: false
-            };
+            if(gGameModle.isManual){
+                currBoard[i][j] = { 
+                    negsMinesCount: 0,
+                    isVisible: true,
+                    isMine: false,
+                    hasFlag: false
+                };
+            } else {
+                currBoard[i][j] = { 
+                    negsMinesCount: 0,
+                    isVisible: false,
+                    isMine: false,
+                    hasFlag: false
+                };
+            }
+            
             
         }
     }
-    /* Debug buildBoard => */// console.log(currBoard);
+
     return currBoard;
 }
+
+/* Debug buildBoard => */// console.log(currBoard);
+
 
 function cellClicked(element){
     var currPos = cellPosFromElement(element);
 
-    if(gGameModle.gameMode === 'manual'){
+    if(gGameModle.gameMode === 'Manual'){
 
         if(gGameModle.level.minesNum > 1){
             element.innerHTML = '<img src="img/cell-mine.png">';
             gGameModle.level.minesNum--;
             gGameRenderer.selectors.mineNumEl.innerText = +gGameRenderer.selectors.mineNumEl.innerText -1;
             gGameModle.board[currPos.i][currPos.j].isMine = true;
+            gGameModle.safeCells.splice(gGameModle.safeCells.indexOf(currPos),1);
+           
+
             updateCellNegs (currPos);
 
         }else if(gGameModle.level.minesNum === 1 ){
@@ -64,12 +75,19 @@ function cellClicked(element){
             gGameRenderer.selectors.mineNumEl.innerText = +gGameRenderer.selectors.mineNumEl.innerText -1;
             gGameModle.board[currPos.i][currPos.j].isMine = true;
             updateCellNegs (currPos);
-            coverBoard();
+            gGameModle.safeCells.splice(gGameModle.safeCells.indexOf(currPos),1);
+            
+            setTimeout(randerBoard,50);
         } else {
             checkGameOver(element);
             revealCell(element);
             uncoverdNegs(cellPosFromElement(element));
         }
+
+    } else {
+        checkGameOver(element);
+        revealCell(element);
+        uncoverdNegs(cellPosFromElement(element));
     }
 
     /* Debug cellClicked => */// console.log(cell);
@@ -94,19 +112,28 @@ function checkGameOver(element) {
     var currPos = cellPosFromElement(element);
     var currCell = gGameModle.board[currPos.i][currPos.j];
 
+    if(!gGameModle.timerIntervalID) startTimer(); 
     if(currCell.isMine){
+        gGameModle.isGameOn = false;
         element.innerHTML = '<img src="img/cell-mine.png">';
         gGameRenderer.selectors.gameBoardEl.style.backgroundColor = 'red';
+        clearInterval(gGameModle.timerIntervalID); 
         console.log('GAME OVER');
     }
+}
+
+function victorious (){
+    gGameRenderer.selectors.gameBoardEl.style.backgroundColor = 'blue';
+    clearInterval(gGameModle.timerIntervalID); 
+    console.log('WIN');
 }
 
 function revealCell(element) {
     var currPos = cellPosFromElement(element);
     var currCell = gGameModle.board[currPos.i][currPos.j];
+    gGameModle.safeCells.splice(gGameModle.safeCells.indexOf(currPos),1);
     
     currCell.isVisible = true;
-
     randerCell(currPos);
 }
 
@@ -114,36 +141,26 @@ function expandVisible(board, elCell, pos){
 
 }
 
-function handdleGameMode (){
-    switch (gGameModle.gameMode) { 
-        case 'basic':
-            
-            break;
-            case 'manual':
-                for (let i = 0; i < gGameModle.level.size; i++) {
-                    for (let j = 0; j < gGameModle.level.size; j++) {
-                        gGameModle.board[i][j].isVisible = true; 
-                    }
-                }
-                gGameRenderer.selectors.mineBankEl.style.display = 'block'
-                gGameRenderer.selectors.mineNumEl.innerHTML = gGameModle.level.minesNum;
-                gGameRenderer.selectors.flagsNumEl.innerHTML = gGameModle.flagsCount;  
-            break;
+function layMines (num){
     
-        default:
-            gGameModle.gameMode = 'manual';
-            handdleGameMode ();
-            break;
+    var i = -1;
+    var j = -1;
+
+    while(num > 0){
+        i = getRandomInt(0,gGameModle.level.size);
+        j = getRandomInt(0,gGameModle.level.size);
+        if(!gGameModle.board[i][j].isMine){
+            gGameModle.board[i][j].isMine = true;
+            console.log('safeCells:' + gGameModle.safeCells.length + 'have mine: ' 
+            + gGameModle.board[currPos.i][currPos.j].isMine + '| or double: ' + currPos.i + '' + currPos.j);
+            console.log('safeCells', gGameModle.safeCells.length);
+            updateCellNegs({i,j});
+        }
+        num--;
     }
 }
     
-function cellPosFromElement (element){
-    var dataStr = element.dataset.pos.split('-');
-    return{i: +dataStr[0],j: +dataStr[1]}
 
-    // TODO: Use befor the return statement
-    /* Debug setGameRenderer => */// console.log(cellPosFromElement(document.querySelector('.cell')));
-}
 
 function toggleCellFlag (element){
     var currPos = cellPosFromElement(element);
@@ -166,6 +183,7 @@ function toggleCellFlag (element){
 }
 
 function mouseClicked(event, element){
+    if(!gGameModle.isGameOn) return;
     switch(event.which){
         case 1: 
             cellClicked(element);
@@ -176,5 +194,88 @@ function mouseClicked(event, element){
     } 
 }
 
+function resetVariables(mode) {
+    gGameModle = {};
+    var size = 4;
+    var amount = 2;
+
+    switch (mode) {
+        case 'Manual':
+            gGameModle.isManual = true;
+            break;
+        case 'Easy':
+            break;
+        case 'Medium':
+            size = 8;
+            amount = 14;
+            break;
+        case 'Hard':
+            size = 8;
+            amount = 32;
+            break;
+        default:
+            gGameModle.gameMode = 'Manual';
+            gGameModle.isManual = true;
+            break;
+    }
+
+    if(gGameModle === undefined){
+        gGameModle.isGameOn = true;
+        gGameModle.visiblesCounter = 0;
+        gGameModle.flagsCount = amount;
+
+        gGameModle.secPassed = 0;
+        gGameModle.gameMode = mode;
+        gGameModle.level = {
+            size: size, 
+            minesNum: amount
+        }; 
+        gGameModle.safeCells = [];
+    } else {
+        gGameModle.isGameOn = true;
+        gGameModle.visiblesCounter = 0;
+        gGameModle.flagsCount = amount;
+        gGameModle.secPassed = 0;
+
+        gGameModle.gameMode = mode;
+        gGameModle.level = {
+                size: size, 
+                minesNum: amount
+            };
+        gGameModle.safeCells = []; 
+    } 
+}
+
+function startTimer(){
+    var lastDate = new Date();
+    var CurrDate;
+    gGameModle.timerIntervalID = setInterval(()=>{
+        CurrDate = new Date();
+        if(Math.floor((CurrDate - lastDate)/1000)>= 1){
+            gGameModle.secPassed++;           
+            gGameRenderer.selectors.timerEl.innerText = IntTo4DigitsStr(gGameModle.secPassed);
+        }
+        lastDate = CurrDate;
+    },1050);
+}
+
+function createSafeCells (){
+    for (let i = 0; i < gGameModle.level.size; i++) {
+        for (let j = 0; j < gGameModle.level.size; j++) {
+            gGameModle.safeCells.push({i,j}); 
+        }
+    }
+    console.log('safeCells', gGameModle.safeCells.length);
+}
+
+function IntTo4DigitsStr(num){
+    var str = num + '';
+    if(str.length >= 4) return;
+
+    while(str.length < 4){
+        str = '0' + str
+    }
+    return str;
+}
 
 
