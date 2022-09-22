@@ -114,8 +114,8 @@ function resetSelectors (){
     gModel.selectors.gameBoardEl = document.querySelector('.gameboard');
     gModel.selectors.timerEl = document.querySelector('.timer .seconds');
     gModel.selectors.diffStrEl = document.querySelector('.difficulty-str');
-
-     /* Debug setGameRenderer => */// console.log(gModel.selectors);
+    gModel.selectors.elScore = document.querySelector('.score-board .score');
+    gModel.selectors.elStatus = document.querySelector('.Status');
 }
 
 
@@ -123,9 +123,9 @@ function resetSelectors (){
 function handdleGameMode (){
     
     gModel.selectors = {};
-    gModel.selectors.mineBankEl = document.querySelector('.mine-bank');
-    gModel.selectors.mineNumEl = document.querySelector('.mine-bank .mine-counter');
-    gModel.selectors.flagsNumEl = document.querySelector('.flags-bank .flags-counter');
+    gModel.selectors.mineBankEl = document.querySelector('.mines');
+    gModel.selectors.mineNumEl = document.querySelector('.bank .mine-counter');
+    gModel.selectors.flagsNumEl = document.querySelector('.bank .flags-counter');
             
     gModel.selectors.mineNumEl.innerHTML = gModel.level.minesNum;
     gModel.selectors.flagsNumEl.innerHTML = gModel.flagsCount;  

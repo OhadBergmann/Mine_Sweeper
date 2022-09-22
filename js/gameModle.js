@@ -16,6 +16,7 @@ function initGame (){
     else {
         generateEmptyBorad ();
     }
+    gModel.selectors.elStatus.innerHTML = '';
     disableContextMenu();     
 }
 
@@ -31,13 +32,15 @@ function resetVariables(mode) {
             gModel.isManual = true;
             break;
         case 'Easy':
+            size = 4;
+            amount = 2;
             break;
         case 'Medium':
             size = 8;
             amount = 14;
             break;
         case 'Hard':
-            size = 8;
+            size = 12;
             amount = 32;
             break;
         default:
@@ -59,7 +62,6 @@ function resetVariables(mode) {
     };
     gModel.ManualMinesNum = amount;
     gModel.safecellsCount = size*size - amount;
-
 }
 
 
@@ -121,7 +123,7 @@ function cellClicked(element){
             gModel.ManualMinesNum--;
             gModel.selectors.mineNumEl.innerText = +gModel.selectors.mineNumEl.innerText -1;
             gModel.board[currPos.i][currPos.j].isMine = true;
-            updateMineNegs (currPos);
+            updateCellNegs (currPos);
             return;
 
         }else if(gModel.ManualMinesNum === 1 ){
@@ -129,7 +131,7 @@ function cellClicked(element){
             gModel.ManualMinesNum--;
             gModel.selectors.mineNumEl.innerText = +gModel.selectors.mineNumEl.innerText -1;
             gModel.board[currPos.i][currPos.j].isMine = true;
-            updateMineNegs (currPos);
+            updateCellNegs (currPos);
             setTimeout(randerBoard,150);
             return;
         }
@@ -181,7 +183,7 @@ function updateCell(element) {
 
 
 
-function updateMineNegs (pos){
+function updateCellNegs (pos){
     var currPos;
     
     for (let i = -1; i <= 1; i++) {
@@ -213,6 +215,7 @@ function uncoverdNegs (pos){
             if(!currCell.isMine && !currCell.hasFlag && !currCell.isVisible) {
                 currCell.isVisible = true;
                 updateCell(elementFromPos(currPos));
+                if(isCellEmpty(currPos)) uncoverdNegs(currPos);
             }
         }
     }  
@@ -227,13 +230,12 @@ function checkGameOver(element) {
     if(!gModel.timerIntervalID) startTimer(); 
     
     if(currCell.isMine){
+        clearInterval(gModel.timerIntervalID); 
         gModel.isRunningGame = false;
         element.innerHTML = '<img src="img/cell-mine.png">';
         gModel.selectors.gameBoardEl.style.backgroundColor = 'red';
-
-        clearInterval(gModel.timerIntervalID); 
+        gModel.selectors.elStatus.innerHTML = 'GAME OVER';
         gModel.selectors.timerEl.innerText = IntTo4DigitsStr(0);
-        console.log('GAME OVER');
     }
 }
 
@@ -241,15 +243,14 @@ function checkGameOver(element) {
 
 function playerIsVictorious (){
 
-    
     if(gModel.flagsCount === 0 && gModel.safecellsCount === gModel.visiblesCounter){
+        clearInterval(gModel.timerIntervalID);
         gModel.isRunningGame = false;
         gModel.selectors.gameBoardEl.style.backgroundColor = 'blue';
-        clearInterval(gModel.timerIntervalID);
+
+        updateScoure(gModel.selectors.timerEl.innerText);
+        gModel.selectors.elStatus.innerHTML = 'You are Victorious';
         gModel.selectors.timerEl.innerText = IntTo4DigitsStr(0); 
-        console.log('Yot are Victorious');
-
-
     }
 }
 
@@ -264,7 +265,7 @@ function layMines (num){
         j = getRandomInt(0,gModel.level.size);
         if(!gModel.board[i][j].isMine){
             gModel.board[i][j].isMine = true;
-            updateMineNegs({i,j});
+            updateCellNegs({i,j});
         }
         num--;
     }
@@ -310,4 +311,29 @@ function IntTo4DigitsStr(num){
     return str;
 }
 
+
+
+function updateScoure (score){
+    var currScore;
+    var multiplier = 0;
+    switch(gModel.gameMode){
+        case 'Manual':
+            multiplier = 0.3;
+            break;
+        case 'Easy':
+            multiplier = 1.5;
+            break;
+        case 'Medium':
+            multiplier = 1.5;
+            break;
+        case 'Hard':
+            multiplier = 3;
+            break;
+            default:
+                break;
+    }
+    currScore = IntTo4DigitsStr(Math.ceil(score*multiplier));
+    localStorage.setItem('anonymous',currScore);
+    document.querySelector('.score-board .score').innerText = currScore;
+}
 

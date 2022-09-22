@@ -11,13 +11,13 @@
 
     <div class="gameboard">
         <div class="innerheader">Mine Sweeper</div>
-        <div class="score-board">
+        <div class="signboard score-board"> Max Score
             <div class="score">0000</div>
         </div>
         <div class="smiley start">
             <img onclick="initGame()" src="img/Smiley-start.png" alt=":)">
         </div>
-        <div class="timer">
+        <div class="signboard timer">Seconds:
             <div class="seconds"> 0000</div> 
         </div>
         <div class="table-area">
@@ -26,19 +26,24 @@
             </table>
         </div>
         <div class="chose-difficulty">
-            <button class="difficulty-btn-left" onclick="changeDiff(false)">&larr;</button>
-            <button class="difficulty-btn-right" onclick="changeDiff(true)">&rarr;</button>
+            <button class="difficulty-btn left" onclick="changeDiff(false)">&larr;</button>
+            <button class="difficulty-btn right" onclick="changeDiff(true)">&rarr;</button>
+            <div class="start-by">&uarr;<br>start by clicking on the smiley</div>
             <div class="difficulty-str">Easy</div>
         </div>
-        <div class="mine-bank">
+        <div class="bank mines"> 
+            <div class="mine-txt">
+                Mines Bank
+            </div>
             <div class="mine-counter">
-                0
+                0 
             </div>
             <table class="mines-table">
 
             </table>
         </div>
-        <div class="flags-bank">
+        <div class="bank flags">
+            Remaining flags Stoke
             <div class="flags-counter">
                 0
             </div>
@@ -46,6 +51,7 @@
 
             </table>
         </div>
+        <div class="Status"></div>
 
     </div>
     

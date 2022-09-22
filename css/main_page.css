@@ -5,25 +5,38 @@ body{
 .gameboard{
 
     position: absolute;
-    height: 80%;
+    height: 90%;
     width: 80%;
     min-height: 900px;
     min-width: 900px;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-60%);
+    transform: translate(-50%,-55%);
     border-radius: 3%;
     border: 4px rgb(80, 80, 80) groove;
     background-color: rgb(184, 184, 184);
 }
 
+.Status{
+    position: absolute;
+    width: 400px;
+    height: 120px;
+    top: 400px;
+    left: 50%;
+    color: rgb(226, 43, 113);
+    transform: translate(-200px);
+    font-size: 50px;
+    font-style: oblique;
+    text-shadow: 2px 2px 2px rgba(158, 255, 231, 0.58);
+    z-index: -15;
+}
 .gameboard .table-area {
     position: absolute;
-    height:auto;
+    height: auto;
     width: auto;
     left: 50%;
-    top: 46%;
-    transform: translate(-50%,-30%);
+    top: 35%;
+    transform: translate(-50%);
 
     border: 4px rgb(80, 80, 80) groove;
 }
@@ -46,151 +59,175 @@ table{
     object-fit: fill;
     width: 50px;
     height: 50px;
+    z-index: 1;
 }
 
+.cell > img{
+    z-index: -1;
+}
 
 .innerheader{
     position: absolute;
     box-sizing: content-box;
-    height: 10%;
-    width: 70%;
-    left: 15%;
-    top: 2%;
+    height: 100px;
+    width: 680px;
+    left: 52%;
+    top: 50px;
+    transform: translate(-340px);
+    text-shadow: 8px 2px 6px rgba(0,0,0,0.58);
     text-align: center;
     font-size: 70px;
     font-style: oblique;
     color: rgba(9, 0, 111, 0.777);
-
-    border: 4px rgb(80, 80, 80) groove;
 }
 
 
 .chose-difficulty{
     position: absolute;
-    height: 15%;
-    width: 15%;
-    top: 33%;
-    left: 6%;
+    height: 160px;
+    width: 450px;
+    top: 220px;
+    left: 50%;
+    transform: translate(-225px);
     border-radius: 3%;
-    border: 4px rgb(80, 80, 80) groove;
     background-color: rgb(184, 184, 184);
-
 } 
 
-.difficulty-btn-left{
+.difficulty-btn {
     position: absolute;
     height: 42%;
-    width: 40%;
+    width: 150px;
     top: 5%;
-    left: 5%;
     border-radius: 7%;
-    border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
+    transform: translate(-75px);
     border: 4px rgb(80, 80, 80) groove;
     background-color: rgb(220, 200, 10);
     font-size: 40px;
-
+    padding-bottom: 50px;
 }
 
-.difficulty-btn-left:hover{
+
+.left{  
+    left: 20%;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+
+
+
+.right{
+    left: 80%;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.left:hover{
     transition: all 0.3s;
     border-top-right-radius: 50%;
     border-bottom-right-radius: 50%;
     background-color: rgb(220, 90, 10);
 }
 
-.difficulty-btn-right{
-    position: absolute;
-    height: 42%;
-    width: 40%;
-    top: 5%;
-    left: 55%;
-    border-radius: 7%;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
-    border: 4px rgb(80, 80, 80) groove;
-    background-color: rgb(220, 200, 10);
-    font-size: 40px;
-}
-
-.difficulty-btn-right:hover{
+.right:hover{
     transition: all 0.3s;
     border-top-left-radius: 50%;
     border-bottom-left-radius: 50%;
     background-color: rgb(220, 90, 10);
 }
 
+.start-by{
+    position:absolute;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.9);
+    height: 70px;
+    width: 100px;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50px);
+    text-align: center;
+    font-size: 18px;
+}
 
 .difficulty-str{
     position: absolute;
-    height: 42%;
-    width: 80%;
-    top: 62%;
-    left: 10%;
-    color: blueviolet;
+    height: 50px;
+    width: 120px;
+    top: 100px;
+    left: 50%;
+    transform: translate(-60px);
+    color: rgb(208, 4, 4);
     text-align: center;
-    font-size: 35px;
+    text-shadow: 8px 2px 6px rgba(0,0,0,0.58);
+    font-size: 45px;
 }
 
-.timer{
-    position: absolute;
-    height: 12%;
-    width: 17%;
-    top: 16%;
-    left: 77%;
-    background-color: rgb(56, 56, 56);
-    border: 7px red solid;
-    border-radius: 7%;
 
-}
 
 .seconds{
     position: absolute;
     height: 70%;
     width: 80%;
     left: 50%;
-    top: 60%;
+    top: 75px;
     transform: translate(-50%,-50%);
     color: rgb(217, 217, 217);
+    padding-top: 10px ;
     font-size: 45px;
     text-align: center;
 }
 
-.score-board{
+.signboard{
     position: absolute;
-    height: 12%;
-    width: 17%;
-    top: 16%;
-    left: 5%;
+    height:100px;
+    width: 170px;
+    top: 2%;
     background-color: rgb(56, 56, 56);
     border: 7px red solid;
+    padding-top:10px ;
     border-radius: 7%;
-    
+    color: rgb(255, 100, 100);
+    text-align: center;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
+.score-board{
+    left: 10%;
+}
+
+.timer{
+    left: 80%;
+}
 
 .score{
     position: absolute;
     height: 70%;
     width: 80%;
     left: 50%;
-    top: 60%;
+    top: 75px;
     transform: translate(-50%,-50%);
     color: rgb(217, 217, 217);
+    padding-top: 10px ;
     font-size: 45px;
     text-align: center;
 }
 
-
-.mine-bank{
+.bank{
     position: absolute;
     height: 15%;
     width: 15%;
     top: 80%;
-    left: 5%;
     border-radius: 3%;
     border: 4px rgb(80, 80, 80) groove;
     background-color: rgb(184, 184, 184);
+    color: rgb(208, 4, 4);
+    text-align: center;
+    text-shadow: 8px 2px 6px rgb(0 0 0 / 58%);
+    font-size: 33px;
+}
+
+.bank.mines{
+    left: 5%;
     display: none;
 }
 
@@ -198,7 +235,7 @@ table{
     position: absolute;
     height: 33%;
     width: 90%;
-    top: 7%;
+    top: 90px;
     left: 2%;
     border-radius: 3%;
     border: 4px rgb(80, 80, 80) groove;
@@ -208,22 +245,19 @@ table{
     text-align: center;
 }
 
-.flags-bank{
-    position: absolute;
-    height: 15%;
-    width: 15%;
-    top: 80%;
+.mine-txt{
+    padding-top: 30px;
+}
+
+.bank.flags{
     left: 80%;
-    border-radius: 3%;
-    border: 4px rgb(80, 80, 80) groove;
-    background-color: rgb(184, 184, 184);
 }
 
 .flags-counter{
     position: absolute;
     height: 33%;
     width: 90%;
-    top: 7%;
+    top: 90px;
     left: 2%;
     border-radius: 3%;
     border: 4px rgb(80, 80, 80) groove;
@@ -233,38 +267,38 @@ table{
     text-align: center;
 }
 
-.smiley.start{
+.smiley{
     position: absolute;
-    height: 7.5%;
-    width: 6.5%;
-    left: 46.25%;
-    top: 15%;
+    height: 75px;
+    width: 75px;
+    left: 50%;
+    transform: translate(-37.5px);
+    top: 135px;
     border-radius: 50%;
-
     border: 4px rgb(80, 80, 80) groove;
 }
 
-.smiley.start:hover{
-    background-color:  rgba(138, 0, 0, 0.1);
-    transition: all 1.1s;
+.smiley:hover{
+    background-color:  rgba(173, 5, 5, 0.546);
+    transition: all 0.1s;
     border-radius: 50%;
 }
 
 
-.smiley.start > img{
+.smiley > img{
     position: absolute;
-    width: 96%;
-    height: 96%;
-    top: 2%;
-    left: 1.5%;
+    height: 70px;
+    width: 70px;
+    left: 2.5px;
+    top: 2.5px;
 }
 
 .smiley.start > img:hover{
     position: absolute;
-    width: 98%;
-    height: 98%;
-    top: 0.5%;
-    left: 1%;
+    height: 75px;
+    width: 75px;
+    left: 0px;
+    top: 0px;
     cursor: pointer;
 
 }
