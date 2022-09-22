@@ -3,7 +3,6 @@ body{
 }
 
 .gameboard{
-
     position: absolute;
     height: 90%;
     width: 80%;
@@ -35,7 +34,7 @@ body{
     height: auto;
     width: auto;
     left: 50%;
-    top: 35%;
+    top: 520px;
     transform: translate(-50%);
 
     border: 4px rgb(80, 80, 80) groove;
@@ -246,7 +245,7 @@ table{
 }
 
 .mine-txt{
-    padding-top: 30px;
+    padding-top: 15px;
 }
 
 .bank.flags{
