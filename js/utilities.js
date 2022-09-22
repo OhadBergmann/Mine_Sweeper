@@ -3,9 +3,11 @@
 function cellPosFromElement (element){
     var dataStr = element.dataset.pos.split('-');
     return{i: +dataStr[0],j: +dataStr[1]}
+}
 
-    // TODO: Use befor the return statement
-    /* Debug setGameRenderer => */// console.log(cellPosFromElement(document.querySelector('.cell')));
+function elementFromPos (pos){
+    var dataStr = '[data-pos="' + pos.i + '-' + pos.j + '"]';
+    return document.querySelector(dataStr);
 }
 
 function disableContextMenu(){
