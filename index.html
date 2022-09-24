@@ -6,36 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mine Sweeper By Ohad Bergmann</title>
     <link rel="stylesheet" href="css/main_page.css">
+    <link rel="stylesheet" href="css/game_elements.css">
 </head>
 <body onload="initGame()">
 
-    <div class="gameboard">
-        <div class="innerheader">Mine Sweeper</div>
+    <div class="main-panel">
+       
         <div class="signboard score-board"> Max Score
-            <div class="score">0000</div>
+            <div class="score signboard-txt">0000</div>
         </div>
+        <div class="signboard timer">Seconds:
+            <div class="seconds signboard-txt"> 0000</div> 
+        </div>
+        <div class="game-name">Mine Sweeper</div>
+        
         <div class="smiley start">
             <img onclick="initGame()" src="img/Smiley-start.png" alt=":)">
         </div>
-        <div class="signboard timer">Seconds:
-            <div class="seconds"> 0000</div> 
-        </div>
-        <div class="table-area">
-            <table cellspacing="0">
 
-            </table>
-        </div>
-        <div class="chose-difficulty">
-            <button class="difficulty-btn left" onclick="changeDiff(false)">&larr;</button>
-            <button class="difficulty-btn right" onclick="changeDiff(true)">&rarr;</button>
-            <div class="start-by">&uarr;<br>start by clicking on the smiley</div>
+        <div class="selection-panel left">
+            <div class="difficulty-txt">chose difficulty</div>
+            <button class="selection-btn left" onclick="changeDiff(false)">&#8592;</button>
+            <button class="selection-btn right" onclick="changeDiff(true)">&#8594;</button>
             <div class="difficulty-str">Easy</div>
         </div>
+
+        <div class="selection-panel right">
+            <div class="mode-txt">chose mode</div>
+            <button class="selection-btn left" onclick="changeMode(false)">&#8592;</button>
+            <button class="selection-btn right" onclick="changeMode(true)">&#8594;</button>
+            <div class="mode-str">Standard</div>
+        </div>
+
+        <div class="table-area easy">
+        </div>
+        
         <div class="bank mines"> 
             <div class="mine-txt">
-                Mines Bank
+                Mines <br> Bank
             </div>
-            <div class="mine-counter">
+            <div class="mine counter">
                 0 
             </div>
             <table class="mines-table">
@@ -44,7 +54,7 @@
         </div>
         <div class="bank flags">
             Remaining flags Stoke
-            <div class="flags-counter">
+            <div class="flags counter">
                 0
             </div>
             <table class="flags-table">

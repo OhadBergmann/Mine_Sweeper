@@ -2,18 +2,192 @@ body{
     background-color: cornflowerblue;
 }
 
-.gameboard{
+.main-panel{
     position: absolute;
-    height: 90%;
-    width: 80%;
+    height: 900px;
+    width: 600px;
     min-height: 900px;
-    min-width: 900px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-55%);
-    border-radius: 3%;
-    border: 4px rgb(80, 80, 80) groove;
+    min-width: 600px;
+    left: 1%;
+    top: 1%;
+    border: 2px  rgb(56, 56, 56) solid;
     background-color: rgb(184, 184, 184);
+}
+
+/* ------- ------- ------- page element row 0 ("top of the page') ------- ------- ------- */
+
+.signboard{
+    position: absolute;
+    height: 60px;
+    width: 80px;
+    top: 13px;
+    background-color: rgb(56, 56, 56);
+    border: 3px red groove;
+    padding-top: 5px ;
+    border-radius: 7%;
+    color: rgb(255, 100, 100);
+    text-align: center;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+   
+}
+
+.score-board{
+    left: 17px;
+}
+
+.timer{
+    left: 500px;
+}
+
+.signboard-txt{
+    position: absolute;
+    height: 70%;
+    width: 80%;
+    left: 50%;
+    top: 48px;
+    transform: translate(-50%,-50%);
+    color: rgb(217, 217, 217);
+    font-size: 26px;
+    text-align: center;
+}
+
+.game-name{
+    position: absolute;
+    box-sizing: content-box;
+    height: 100px;
+    width: 400px;
+    left: 200px;
+    top: 7px;
+    transform: translate(-100px);
+    text-shadow: 8px 2px 6px rgba(0,0,0,0.58);
+    text-align: center;
+    font-size: 50px;
+    font-style: oblique;
+    color: rgba(9, 0, 111, 0.777);
+}
+
+/* ------- ------- ------- page element row 1 ------- ------- ------- */
+
+
+.smiley{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    left: 300px;
+    transform: translate(-25px);
+    top: 100px;
+    border-radius: 50%;
+    border: 4px rgb(80, 80, 80) groove;
+    transition: all 0.1s;
+    z-index: 7; /* first layer*/
+    cursor: pointer;
+}
+
+.smiley:hover{
+    background-color:  rgb(252, 206, 0);
+    border: 4px rgb(0, 154, 221) groove;
+}
+
+.smiley > img{
+    position: absolute;
+    height: 70px;
+    width: 70px;
+    transform: translate(-13px,-13px);
+    left: 2.5px;
+    top: 2.5px;
+}
+
+.smiley > img:hover{
+    height: 75px;
+    width: 75px;
+    left: 0px;
+    top: 0px;
+}
+
+/* ------- ------- ------- page element row 2 ------- ------- ------- */
+
+.selection-panel{
+    position: absolute;
+    height: 120px;
+    width: 200px;
+    top: 150px;
+    border-radius: 3%;
+    background-color: rgb(184, 184, 184);
+    border: 2px black solid;
+} 
+
+
+.selection-panel.left{
+    left: 5px;
+}
+
+.selection-panel.right{
+    left: 390px;
+}
+
+.difficulty-txt{
+    position:absolute;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.9);
+    height: 50px;
+    width: 200px;
+    top: 10px;
+    left: 0px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.selection-btn {
+    position: absolute;
+    height: 30px;
+    width: 40px;
+    top: 35px;
+    padding-bottom: 25px;
+    transition: all 0.15s;
+    border-radius: 7%;
+    border: 4px rgb(80, 80, 80) groove;
+    font-size: 20px;
+    font-style: oblique;
+    background-color: rgba(216, 84, 69, 0.948);
+}
+
+.selection-btn.left:hover{
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgba(216, 69, 138, 0.948);
+}
+
+.selection-btn.right:hover{
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    background-color: rgba(216, 69, 138, 0.948);
+}
+
+.selection-btn.left{  
+    left: 95px;
+    transform: translate(-40px);
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+
+.selection-btn.right{
+    left: 105px;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.difficulty-str{
+    position: absolute;
+    height: 50px;
+    width: 120px;
+    top: 65px;
+    left: 100px;
+    transform: translate(-60px);
+    color: rgb(199, 0, 175);
+    text-align: center;
+    text-shadow: 2px 2px 2px rgba(1, 11, 63, 0.887);
+    font-size: 45px;
 }
 
 .Status{
@@ -29,275 +203,95 @@ body{
     text-shadow: 2px 2px 2px rgba(158, 255, 231, 0.58);
     z-index: -15;
 }
-.gameboard .table-area {
-    position: absolute;
-    height: auto;
-    width: auto;
-    left: 50%;
-    top: 520px;
-    transform: translate(-50%);
 
-    border: 4px rgb(80, 80, 80) groove;
-}
-
-table{
-    table-layout: fixed;
-
-}
-
-.row{
-    border-collapse: collapse;
-    border-spacing: 0px;
-    vertical-align: initial;
-    padding: 0px;
-}
-
-.cell{
-    background-color: rgb(255, 255, 255);
-    text-align: center;
-    object-fit: fill;
-    width: 50px;
-    height: 50px;
-    z-index: 1;
-}
-
-.cell > img{
-    z-index: -1;
-}
-
-.innerheader{
-    position: absolute;
-    box-sizing: content-box;
-    height: 100px;
-    width: 680px;
-    left: 52%;
-    top: 50px;
-    transform: translate(-340px);
-    text-shadow: 8px 2px 6px rgba(0,0,0,0.58);
-    text-align: center;
-    font-size: 70px;
-    font-style: oblique;
-    color: rgba(9, 0, 111, 0.777);
-}
-
-
-.chose-difficulty{
-    position: absolute;
-    height: 160px;
-    width: 450px;
-    top: 220px;
-    left: 50%;
-    transform: translate(-225px);
-    border-radius: 3%;
-    background-color: rgb(184, 184, 184);
-} 
-
-.difficulty-btn {
-    position: absolute;
-    height: 42%;
-    width: 150px;
-    top: 5%;
-    border-radius: 7%;
-    transform: translate(-75px);
-    border: 4px rgb(80, 80, 80) groove;
-    background-color: rgb(220, 200, 10);
-    font-size: 40px;
-    padding-bottom: 50px;
-}
-
-
-.left{  
-    left: 20%;
-    border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
-}
-
-
-
-.right{
-    left: 80%;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
-}
-
-.left:hover{
-    transition: all 0.3s;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
-    background-color: rgb(220, 90, 10);
-}
-
-.right:hover{
-    transition: all 0.3s;
-    border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
-    background-color: rgb(220, 90, 10);
-}
-
-.start-by{
+.mode-txt{
     position:absolute;
     color: rgb(255, 255, 255);
     text-shadow: 2px 2px 2px rgba(0,0,0,0.9);
-    height: 70px;
-    width: 100px;
+    height: 50px;
+    width: 200px;
     top: 10px;
-    left: 50%;
-    transform: translate(-50px);
+    left: 0px;
     text-align: center;
     font-size: 18px;
 }
 
-.difficulty-str{
+.mode-str{
     position: absolute;
     height: 50px;
     width: 120px;
-    top: 100px;
-    left: 50%;
-    transform: translate(-60px);
-    color: rgb(208, 4, 4);
+    top: 65px;
+    left: 100px;
+    transform: translate(-80px);
+    color: rgb(199, 0, 175);
     text-align: center;
-    text-shadow: 8px 2px 6px rgba(0,0,0,0.58);
+    text-shadow: 2px 2px 2px rgba(1, 11, 63, 0.887);
     font-size: 45px;
 }
 
+/* ------- ------- ------- page element row 2 ------- ------- ------- */
 
 
-.seconds{
-    position: absolute;
-    height: 70%;
-    width: 80%;
-    left: 50%;
-    top: 75px;
-    transform: translate(-50%,-50%);
-    color: rgb(217, 217, 217);
-    padding-top: 10px ;
-    font-size: 45px;
-    text-align: center;
-}
 
-.signboard{
-    position: absolute;
-    height:100px;
-    width: 170px;
-    top: 2%;
-    background-color: rgb(56, 56, 56);
-    border: 7px red solid;
-    padding-top:10px ;
-    border-radius: 7%;
-    color: rgb(255, 100, 100);
-    text-align: center;
-    font-size: 30px;
-    font-family: Arial, Helvetica, sans-serif;
-}
 
-.score-board{
-    left: 10%;
-}
 
-.timer{
-    left: 80%;
-}
 
-.score{
-    position: absolute;
-    height: 70%;
-    width: 80%;
-    left: 50%;
-    top: 75px;
-    transform: translate(-50%,-50%);
-    color: rgb(217, 217, 217);
-    padding-top: 10px ;
-    font-size: 45px;
-    text-align: center;
-}
+
+
+
+
+
+
+/* ------- ------- ------- page element row 5 ------- ------- ------- */
 
 .bank{
     position: absolute;
-    height: 15%;
-    width: 15%;
-    top: 80%;
+    height: 75px;
+    width: 75px;
+    top: 620px;
     border-radius: 3%;
     border: 4px rgb(80, 80, 80) groove;
     background-color: rgb(184, 184, 184);
     color: rgb(208, 4, 4);
     text-align: center;
     text-shadow: 8px 2px 6px rgb(0 0 0 / 58%);
-    font-size: 33px;
+    font-size: 15px;
 }
 
 .bank.mines{
-    left: 5%;
+    left: 13px;
     display: none;
 }
 
-.mine-counter{
+.bank.flags{
+    left: 512px;
+}
+
+.counter{
     position: absolute;
-    height: 33%;
-    width: 90%;
-    top: 90px;
-    left: 2%;
+    height: 25px;
+    width: 62px ;
+    top: 40px;
+    left: 2.5px;
     border-radius: 3%;
     border: 4px rgb(80, 80, 80) groove;
     background-color: rgba(149, 2, 2, 0.656);
     color: rgb(217, 217, 217);
-    font-size: 40px;
     text-align: center;
+    font-size: 22px;
 }
 
-.mine-txt{
-    padding-top: 15px;
+.mine.counter{
+    background-color: rgba(149, 2, 2, 0.656);
 }
 
-.bank.flags{
-    left: 80%;
-}
-
-.flags-counter{
-    position: absolute;
-    height: 33%;
-    width: 90%;
-    top: 90px;
-    left: 2%;
-    border-radius: 3%;
-    border: 4px rgb(80, 80, 80) groove;
+.flags.counter{
     background-color: rgba(255, 0, 187, 0.656);
-    color: rgb(217, 217, 217);
-    font-size: 40px;
-    text-align: center;
-}
-
-.smiley{
-    position: absolute;
-    height: 75px;
-    width: 75px;
-    left: 50%;
-    transform: translate(-37.5px);
-    top: 135px;
-    border-radius: 50%;
-    border: 4px rgb(80, 80, 80) groove;
-}
-
-.smiley:hover{
-    background-color:  rgba(173, 5, 5, 0.546);
-    transition: all 0.1s;
-    border-radius: 50%;
 }
 
 
-.smiley > img{
-    position: absolute;
-    height: 70px;
-    width: 70px;
-    left: 2.5px;
-    top: 2.5px;
-}
 
-.smiley.start > img:hover{
-    position: absolute;
-    height: 75px;
-    width: 75px;
-    left: 0px;
-    top: 0px;
-    cursor: pointer;
 
-}
+
+
+

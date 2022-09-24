@@ -1,0 +1,58 @@
+/* height: 900px;
+width: 600px; */
+
+.table-area {
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    top: 300px;
+    left: 100px;
+    border: 4px rgb(80, 80, 80) groove;
+    background-color: rgb(184, 184, 184);
+}
+
+
+.row{
+    display: flex;
+    width: 100%;
+}
+
+.table-area .cell{
+    display: inline;
+}
+
+.table-area.easy .cell{
+    width: 100px;
+    height: 100px;
+    z-index: 1;
+}
+
+.table-area.easy .cell > img{
+    width: 100px;
+    height: 100px;
+    z-index: -1;
+}
+
+.table-area.medium .cell{
+    width: 50px;
+    height: 50px;
+    z-index: 1;
+}
+
+.table-area.medium .cell > img{
+    width: 50px;
+    height: 50px;
+    z-index: -1;
+}
+
+.table-area.hard .cell{
+    width: 33.5px;
+    height: 33.5px;
+    z-index: 1;
+}
+
+.table-area.hard .cell > img{
+    width: 33.5px;
+    height: 33.5px;
+    z-index: -1;
+}

@@ -2,58 +2,33 @@
 
 function randerBoard(){
     var currCell;
-    var elCell;
     var posStr = '';
     var strHTML = '';
 
-    if(gModel.isManual)
-    {
-        for (let i = 0; i < gModel.board.length; i++) {
-            for (let j = 0; j < gModel.board[i].length; j++) {
-                posStr =  i + '-' + j;
-                currCell = gModel.board[i][j];
-                currCell.isVisible = false;
+    for (let i = 0; i < gModel.board.length; i++) {
+        strHTML += '<div class="row">';
+        
+        for (let j = 0; j < gModel.board[i].length; j++) {
+            posStr =  i + '-' + j;
+            currCell = gModel.board[i][j];
+               
+                
+            if(gModel.isManual){
+                currCell.isVisible = true;
+                strHTML += '<div class="cell" data-pos="'+ posStr +'" onmousedown="mouseClicked(event,this)">' 
+                + '<img src="img/cell-empty.png"></div>';
+                continue;
+            }
+            
+            strHTML += '<div class="cell" data-pos="'+ posStr +'" onmousedown="mouseClicked(event,this)">' 
+                + '<img src="img/cell-covered.png"></div>';     
+        }
+        strHTML += '</div>';
+    }
 
-                elCell = document.querySelector('[data-pos="' + posStr + '"]');
-                elCell.innerHTML = '<img src="img/cell-covered.png">';
-            }
-        }
-    } else {
-        gModel.selectors.gameBoardEl.style.backgroundColor = 'rgb(184, 184, 184)';
-        for (let i = 0; i < gModel.level.size; i++) {
-                strHTML += '<tr class="row">';
-            for (let j = 0; j < gModel.level.size; j++) {
-                posStr =  i + '-' + j;
-                currCell = gModel.board[i][j];
-                currCell.isVisible = false;
-                strHTML += '<td class="cell" data-pos="'+ posStr +'" onmousedown="mouseClicked(event,this)">' 
-                + '<img src="img/cell-covered.png"></td>';
-            }
-            strHTML += '</tr>';
-        }
+    gModel.selectors.elTableArea.innerHTML = strHTML;
     
-        gModel.selectors.mTableEl.innerHTML = strHTML;
-    }
 }
-
-
-
-function generateEmptyBorad (){
-    var strHTML = '';
-
-    gModel.selectors.gameBoardEl.style.backgroundColor = 'rgb(184, 184, 184)';
-    for (let i = 0; i < gModel.level.size; i++) {
-            strHTML += '<tr class="row">';
-        for (let j = 0; j < gModel.level.size; j++) {
-            strHTML += '<td class="cell" data-pos="'+ i + '-' + j +'" onmousedown="mouseClicked(event,this)">' 
-            + '<img src="img/cell-empty.png"></td>';
-        }
-        strHTML += '</tr>';
-    }
-
-    gModel.selectors.mTableEl.innerHTML = strHTML;
-}
-
 
 
 function randerCell (pos){
@@ -104,50 +79,52 @@ function randerCell (pos){
     }
 }
 
-
-
-function resetSelectors (){
-
-    if(gModel.selectors === undefined) gModel.selectors = {};
-
-    gModel.selectors.mTableEl = document.querySelector('.table-area table');
-    gModel.selectors.gameBoardEl = document.querySelector('.gameboard');
-    gModel.selectors.timerEl = document.querySelector('.timer .seconds');
-    gModel.selectors.diffStrEl = document.querySelector('.difficulty-str');
-    gModel.selectors.elScore = document.querySelector('.score-board .score');
-    gModel.selectors.elStatus = document.querySelector('.Status');
+function coveredAllCells(){
+    var currCell;
+    var posStr;
+    
+    for (let i = 0; i < gModel.board.length; i++) {        
+        for (let j = 0; j < gModel.board[i].length; j++) {
+            posStr =  i + '-' + j;
+            currCell = document.querySelector('[data-pos="' + posStr + '"]');
+            gModel.board[i][j].isVisible = false;
+            currCell.innerHTML = '<img src="img/cell-covered.png">';
+            gModel.selectors.mineBankEl.style.display = 'none';
+        }
+    }
 }
 
-
-
-function handdleGameMode (){
-    
-    gModel.selectors = {};
-    gModel.selectors.mineBankEl = document.querySelector('.mines');
-    gModel.selectors.mineNumEl = document.querySelector('.bank .mine-counter');
-    gModel.selectors.flagsNumEl = document.querySelector('.bank .flags-counter');
-            
+function handdleGameOptions (){
+    setSelectors();
+    gModel.selectors.elMainPanel.style.backgroundColor = 'rgb(184, 184, 184)';
     gModel.selectors.mineNumEl.innerHTML = gModel.level.minesNum;
     gModel.selectors.flagsNumEl.innerHTML = gModel.flagsCount;  
 
-    switch (gModel.gameMode) { 
-        case 'Easy':
-            gModel.selectors.mineBankEl.style.display = 'none'
-            break;
-        case 'Medium':
-            gModel.selectors.mineBankEl.style.display = 'none'
-            break;
-        case 'Hard':
-            gModel.selectors.mineBankEl.style.display = 'none'
-            break;
+    
+    switch (gModel.gameOptions.mode) { 
         case 'Manual':
             gModel.selectors.mineBankEl.style.display = 'block'
-
         break;
-    
-        default:
-            gModel.gameMode = 'Manual';
-            handdleGameMode ();
+        case 'Standard':
+            gModel.selectors.mineBankEl.style.display = 'none'
+        break;
+    }
+
+    switch(gModel.gameOptions.difficulty){
+        case 'Easy':
+            gModel.selectors.elTableArea.classList.add('easy');
+            gModel.selectors.elTableArea.classList.remove('medium');
+            gModel.selectors.elTableArea.classList.remove('hard');
+            break;
+        case 'Medium':
+            gModel.selectors.elTableArea.classList.remove('easy');
+            gModel.selectors.elTableArea.classList.add('medium');
+            gModel.selectors.elTableArea.classList.remove('hard');
+            break;
+        case 'Hard':
+            gModel.selectors.elTableArea.classList.remove('easy');
+            gModel.selectors.elTableArea.classList.remove('medium');
+            gModel.selectors.elTableArea.classList.add('hard');
             break;
     }
 }
@@ -157,44 +134,85 @@ function handdleGameMode (){
 function changeDiff(bool){
 
     if(bool){
-        switch(gModel.gameMode){
-            case 'Manual':
-                gModel.gameMode ='Easy';
-                gModel.isManual = false;
-                break;
+        switch(gModel.gameOptions.difficulty){
             case 'Easy':
-                gModel.gameMode ='Medium';
+                gModel.gameOptions.difficulty ='Medium';
                 gModel.level.size = 8;
                 gModel.level.minesNum = 14;
                 break;
             case 'Medium':
+                gModel.gameOptions.difficulty ='Hard';
                 gModel.level.size = 12;
                 gModel.level.minesNum = 32;
-                gModel.gameMode ='Hard';
                 break;
             case 'Hard':
                 return;
         }
-        gModel.selectors.diffStrEl.innerText = gModel.gameMode;
+        gModel.selectors.elDiffStr.innerText = gModel.gameOptions.difficulty;
     } else {
-        switch(gModel.gameMode){
-            case 'Manual':
-                return;
+        switch(gModel.gameOptions.difficulty){
             case 'Easy':
-                gModel.isManual = true;
-                gModel.gameMode ='Manual';
-                break;
+                return;
             case 'Medium':
+                gModel.gameOptions.difficulty ='Easy';
                 gModel.level.size = 4;
                 gModel.level.minesNum = 2;
-                gModel.gameMode ='Easy';
                 break;
             case 'Hard':
+                gModel.gameOptions.difficulty ='Medium';
                 gModel.level.size = 8;
                 gModel.level.minesNum = 14;
-                gModel.gameMode ='Medium';
                 break;
         }
-        gModel.selectors.diffStrEl.innerText = gModel.gameMode;
+        gModel.selectors.elDiffStr.innerText = gModel.gameOptions.difficulty;
     }
+}
+
+
+
+function changeMode(bool){
+
+    if(bool){
+        switch(gModel.gameOptions.mode){
+            case 'Manual':
+                gModel.isManual = false;
+                gModel.gameOptions.mode = 'Standard';
+                gModel.selectors.elModeStr.innerText = gModel.gameOptions.mode;
+                break;
+            case 'Standard':
+                return;
+        }
+    } else {
+        switch(gModel.gameOptions.mode){
+            case 'Manual':
+                return;
+            case 'Standard':
+                gModel.isManual = true;
+                gModel.gameOptions.mode = 'Manual';
+                gModel.selectors.elModeStr.innerText = gModel.gameOptions.mode;
+                break;
+        }
+        
+    }
+}
+
+
+
+function setSelectors (){
+    gModel.selectors = {};
+    gModel.selectors.mineBankEl = document.querySelector('.mines');
+    gModel.selectors.mineNumEl = document.querySelector('.bank .mine.counter');
+    gModel.selectors.flagsNumEl = document.querySelector('.bank .flags.counter');
+    
+    gModel.selectors.elTableArea = document.querySelector('.table-area');
+    gModel.selectors.elMainPanel = document.querySelector('.main-panel');
+    gModel.selectors.elTimer = document.querySelector('.timer .seconds');
+    
+    gModel.selectors.elDiffStr = document.querySelector('.difficulty-str');
+    gModel.selectors.elModeStr = document.querySelector('.mode-str');
+    
+    gModel.selectors.elScore = document.querySelector('.score-board .score');
+    gModel.selectors.elStatus = document.querySelector('.Status');
+    
+   
 }

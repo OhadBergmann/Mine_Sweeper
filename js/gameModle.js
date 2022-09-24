@@ -1,36 +1,33 @@
 'use strict'
 
 var gModel = {};
-gModel.gameMode = 'Easy';
+gModel.gameOptions = {difficulty: 'Easy', mode: 'Standard'};
 
 function initGame (){
-    resetVariables(gModel.gameMode);
+    resetVariables(gModel.gameOptions);
     gModel.board = buildBoard();
-    handdleGameMode();
-    resetSelectors ()
+    handdleGameOptions();
 
     if(!gModel.isManual){
         randerBoard();
         layMines ( gModel.level.minesNum);
         }
     else {
-        generateEmptyBorad ();
+        randerBoard();
     }
     gModel.selectors.elStatus.innerHTML = '';
-    disableContextMenu();     
+    //disableContextMenu();     
 }
 
 
 
-function resetVariables(mode) {
+function resetVariables(gameoptions) {
     gModel = {};
     var size = 4;
     var amount = 2;
 
-    switch (mode) {
-        case 'Manual':
-            gModel.isManual = true;
-            break;
+    switch (gameoptions.difficulty) {
+        // 
         case 'Easy':
             size = 4;
             amount = 2;
@@ -44,8 +41,17 @@ function resetVariables(mode) {
             amount = 32;
             break;
         default:
-            gModel.gameMode = 'Manual';
+            size = 4;
+            amount = 2;
+            break;
+    }
+
+    switch(gameoptions.mode){
+        case 'Manual':
             gModel.isManual = true;
+            break;
+        case 'Standard':
+            gModel.isManual = false;
             break;
     }
 
@@ -55,7 +61,7 @@ function resetVariables(mode) {
     gModel.selectors = {};
 
     gModel.secPassed = 0;
-    gModel.gameMode = mode;
+    gModel.gameOptions = gameoptions;
     gModel.level = {
         size: size, 
         minesNum: amount
@@ -105,24 +111,24 @@ function mouseClicked(event, element){
             toggleCellFlag(element);
             break;
     } 
-    var currPos = cellPosFromElement(element);
 }
 
 
 
 function cellClicked(element){
-
+    
     var currPos = cellPosFromElement(element);
     var currCell = gModel.board[currPos.i][currPos.j];
+    
     if(currCell.hasFlag) return;
-
-    if(gModel.isManual){
+   
+    if(gModel.isManual && gModel.ManualMinesNum > 0){
 
         if(gModel.ManualMinesNum > 1){
             element.innerHTML = '<img src="img/cell-mine.png">';
             gModel.ManualMinesNum--;
             gModel.selectors.mineNumEl.innerText = +gModel.selectors.mineNumEl.innerText -1;
-            gModel.board[currPos.i][currPos.j].isMine = true;
+            currCell.isMine = true;
             updateCellNegs (currPos);
             return;
 
@@ -130,20 +136,18 @@ function cellClicked(element){
             element.innerHTML = '<img src="img/cell-mine.png">';
             gModel.ManualMinesNum--;
             gModel.selectors.mineNumEl.innerText = +gModel.selectors.mineNumEl.innerText -1;
-            gModel.board[currPos.i][currPos.j].isMine = true;
+            currCell.isMine = true;
             updateCellNegs (currPos);
-            setTimeout(randerBoard,150);
+            coveredAllCells();
             return;
         }
     }
-
+ 
     if(currCell.isVisible) return;
 
     updateCell(element);
     if(isCellEmpty(currPos)) uncoverdNegs(cellPosFromElement(element));
     checkGameOver(element);
-
-    console.log('gModel.visiblesCounter: ',gModel.visiblesCounter)
 }
 
 
@@ -233,9 +237,9 @@ function checkGameOver(element) {
         clearInterval(gModel.timerIntervalID); 
         gModel.isRunningGame = false;
         element.innerHTML = '<img src="img/cell-mine.png">';
-        gModel.selectors.gameBoardEl.style.backgroundColor = 'red';
+        gModel.selectors.elMainPanel.style.backgroundColor = 'red';
         gModel.selectors.elStatus.innerHTML = 'GAME OVER';
-        gModel.selectors.timerEl.innerText = IntTo4DigitsStr(0);
+        gModel.selectors.elTimer.innerText = IntTo4DigitsStr(0);
     }
 }
 
@@ -246,11 +250,11 @@ function playerIsVictorious (){
     if(gModel.flagsCount === 0 && gModel.safecellsCount === gModel.visiblesCounter){
         clearInterval(gModel.timerIntervalID);
         gModel.isRunningGame = false;
-        gModel.selectors.gameBoardEl.style.backgroundColor = 'blue';
+        gModel.selectors.elMainPanel.style.backgroundColor = 'blue';
 
-        updateScoure(gModel.selectors.timerEl.innerText);
+        updateScoure(gModel.selectors.elTimer.innerText);
         gModel.selectors.elStatus.innerHTML = 'You are Victorious';
-        gModel.selectors.timerEl.innerText = IntTo4DigitsStr(0); 
+        gModel.selectors.elTimer.innerText = IntTo4DigitsStr(0); 
     }
 }
 
@@ -292,8 +296,7 @@ function startTimer(){
 
         if(Math.floor((CurrDate - lastDate)/1000)>= 1){
             gModel.secPassed++;           
-            gModel.selectors.timerEl.innerText = IntTo4DigitsStr(gModel.secPassed);
-           
+            gModel.selectors.elTimer.innerText = IntTo4DigitsStr(gModel.secPassed);
         }
         lastDate = CurrDate;
     },1040);
@@ -316,10 +319,7 @@ function IntTo4DigitsStr(num){
 function updateScoure (score){
     var currScore;
     var multiplier = 0;
-    switch(gModel.gameMode){
-        case 'Manual':
-            multiplier = 0.3;
-            break;
+    switch(gModel.gameOptions.difficulty){
         case 'Easy':
             multiplier = 1.5;
             break;
