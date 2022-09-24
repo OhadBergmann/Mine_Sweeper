@@ -9,6 +9,7 @@ width: 600px; */
     left: 100px;
     border: 4px rgb(80, 80, 80) groove;
     background-color: rgb(184, 184, 184);
+    cursor: pointer;
 }
 
 

@@ -190,18 +190,22 @@ body{
     font-size: 45px;
 }
 
-.Status{
+.status{
     position: absolute;
-    width: 400px;
     height: 120px;
-    top: 400px;
-    left: 50%;
+    width: 200px;
+    top: 200px;
+    left: 215px;
     color: rgb(226, 43, 113);
-    transform: translate(-200px);
-    font-size: 50px;
+
+    font-size: 23px;
     font-style: oblique;
     text-shadow: 2px 2px 2px rgba(158, 255, 231, 0.58);
-    z-index: -15;
+    z-index: 0;
+}
+
+.status.over{
+    transform: translate(20px);
 }
 
 .mode-txt{

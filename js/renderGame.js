@@ -20,8 +20,8 @@ function randerBoard(){
                 continue;
             }
             
-            strHTML += '<div class="cell" data-pos="'+ posStr +'" onmousedown="mouseClicked(event,this)">' 
-                + '<img src="img/cell-covered.png"></div>';     
+            strHTML += '<div class="cell" data-pos="'+ posStr +'" onmousedown="mouseClicked(event,this)">'
+            + '<img src="img/cell-covered.png"></div>';     
         }
         strHTML += '</div>';
     }
@@ -89,7 +89,7 @@ function coveredAllCells(){
             currCell = document.querySelector('[data-pos="' + posStr + '"]');
             gModel.board[i][j].isVisible = false;
             currCell.innerHTML = '<img src="img/cell-covered.png">';
-            gModel.selectors.mineBankEl.style.display = 'none';
+            gModel.selectors.elMineBank.style.display = 'none';
         }
     }
 }
@@ -97,16 +97,16 @@ function coveredAllCells(){
 function handdleGameOptions (){
     setSelectors();
     gModel.selectors.elMainPanel.style.backgroundColor = 'rgb(184, 184, 184)';
-    gModel.selectors.mineNumEl.innerHTML = gModel.level.minesNum;
-    gModel.selectors.flagsNumEl.innerHTML = gModel.flagsCount;  
+    gModel.selectors.elMineNum.innerHTML = gModel.level.minesNum;
+    gModel.selectors.elFlagsNum.innerHTML = gModel.flagsCount;  
 
     
     switch (gModel.gameOptions.mode) { 
         case 'Manual':
-            gModel.selectors.mineBankEl.style.display = 'block'
+            gModel.selectors.elMineBank.style.display = 'block'
         break;
         case 'Standard':
-            gModel.selectors.mineBankEl.style.display = 'none'
+            gModel.selectors.elMineBank.style.display = 'none'
         break;
     }
 
@@ -198,12 +198,48 @@ function changeMode(bool){
 
 
 
+function switchSmiley(str){
+    switch (str) {
+        case 'start':
+            gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/Smiley-happy.png" alt=":)">';
+           
+        case 'enter':
+            if(gModel.isRunningGame){
+                gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/Smiley-fear.png" alt=":)">';
+            }
+                break;
+        case 'exit':
+            if(gModel.isRunningGame){
+                gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/Smiley-happy.png" alt=":)">';
+            }
+                break;
+        case 'lose':
+            gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/smiley-lose.png" alt=":)">';
+            break;
+        case 'win':
+            gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/smiley-win.png" alt=":)">';
+            break;
+    }
+}
+
+
+
+function clearDOM (){
+    if(gModel.selectors !== undefined){
+        switchSmiley('happy');
+        gModel.selectors.elStatus.classList.remove('over');
+    }
+}
+
+
 function setSelectors (){
     gModel.selectors = {};
-    gModel.selectors.mineBankEl = document.querySelector('.mines');
-    gModel.selectors.mineNumEl = document.querySelector('.bank .mine.counter');
-    gModel.selectors.flagsNumEl = document.querySelector('.bank .flags.counter');
+    gModel.selectors.elMineBank = document.querySelector('.mines');
+    gModel.selectors.elMineNum = document.querySelector('.bank .mine.counter');
+    gModel.selectors.elFlagsNum = document.querySelector('.bank .flags.counter');
     
+    gModel.selectors.elSmiley = document.querySelector('.smiley'); 
+
     gModel.selectors.elTableArea = document.querySelector('.table-area');
     gModel.selectors.elMainPanel = document.querySelector('.main-panel');
     gModel.selectors.elTimer = document.querySelector('.timer .seconds');
@@ -212,7 +248,7 @@ function setSelectors (){
     gModel.selectors.elModeStr = document.querySelector('.mode-str');
     
     gModel.selectors.elScore = document.querySelector('.score-board .score');
-    gModel.selectors.elStatus = document.querySelector('.Status');
+    gModel.selectors.elStatus = document.querySelector('.status');
     
    
 }

@@ -4,6 +4,7 @@ var gModel = {};
 gModel.gameOptions = {difficulty: 'Easy', mode: 'Standard'};
 
 function initGame (){
+    clearDOM();
     resetVariables(gModel.gameOptions);
     gModel.board = buildBoard();
     handdleGameOptions();
@@ -16,7 +17,7 @@ function initGame (){
         randerBoard();
     }
     gModel.selectors.elStatus.innerHTML = '';
-    //disableContextMenu();     
+    disableContextMenu();     
 }
 
 
@@ -127,7 +128,7 @@ function cellClicked(element){
         if(gModel.ManualMinesNum > 1){
             element.innerHTML = '<img src="img/cell-mine.png">';
             gModel.ManualMinesNum--;
-            gModel.selectors.mineNumEl.innerText = +gModel.selectors.mineNumEl.innerText -1;
+            gModel.selectors.elMineNum.innerText = +gModel.selectors.elMineNum.innerText -1;
             currCell.isMine = true;
             updateCellNegs (currPos);
             return;
@@ -135,7 +136,7 @@ function cellClicked(element){
         }else if(gModel.ManualMinesNum === 1 ){
             element.innerHTML = '<img src="img/cell-mine.png">';
             gModel.ManualMinesNum--;
-            gModel.selectors.mineNumEl.innerText = +gModel.selectors.mineNumEl.innerText -1;
+            gModel.selectors.elMineNum.innerText = +gModel.selectors.elMineNum.innerText -1;
             currCell.isMine = true;
             updateCellNegs (currPos);
             coveredAllCells();
@@ -162,13 +163,13 @@ function toggleCellFlag (element){
         currCell.hasFlag = false;
         element.innerHTML = '<img src="img/cell-covered.png">';
         gModel.flagsCount++;
-        gModel.selectors.flagsNumEl.innerText = gModel.flagsCount; 
+        gModel.selectors.elFlagsNum.innerText = gModel.flagsCount; 
 
     } else {
         currCell.hasFlag = true;
         element.innerHTML = '<img src="img/cell-covered-n-flaged.png">';
         gModel.flagsCount--;
-        gModel.selectors.flagsNumEl.innerText = gModel.flagsCount; 
+        gModel.selectors.elFlagsNum.innerText = gModel.flagsCount; 
         if(gModel.flagsCount <= 0){ playerIsVictorious()}
     }
 }
@@ -236,10 +237,12 @@ function checkGameOver(element) {
     if(currCell.isMine){
         clearInterval(gModel.timerIntervalID); 
         gModel.isRunningGame = false;
+        switchSmiley('lose');
+        gModel.selectors.elStatus.classList.add('over');
         element.innerHTML = '<img src="img/cell-mine.png">';
-        gModel.selectors.elMainPanel.style.backgroundColor = 'red';
         gModel.selectors.elStatus.innerHTML = 'GAME OVER';
         gModel.selectors.elTimer.innerText = IntTo4DigitsStr(0);
+        
     }
 }
 
@@ -250,9 +253,9 @@ function playerIsVictorious (){
     if(gModel.flagsCount === 0 && gModel.safecellsCount === gModel.visiblesCounter){
         clearInterval(gModel.timerIntervalID);
         gModel.isRunningGame = false;
-        gModel.selectors.elMainPanel.style.backgroundColor = 'blue';
 
         updateScoure(gModel.selectors.elTimer.innerText);
+        switchSmiley('win');
         gModel.selectors.elStatus.innerHTML = 'You are Victorious';
         gModel.selectors.elTimer.innerText = IntTo4DigitsStr(0); 
     }
@@ -317,23 +320,25 @@ function IntTo4DigitsStr(num){
 
 
 function updateScoure (score){
-    var currScore;
-    var multiplier = 0;
+    var currScore = score + 1;
+    var balancer = 1000;
     switch(gModel.gameOptions.difficulty){
         case 'Easy':
-            multiplier = 1.5;
+            balancer *= 1;
             break;
         case 'Medium':
-            multiplier = 1.5;
+            balancer = 1.3;
             break;
         case 'Hard':
-            multiplier = 3;
+            balancer = 2;
             break;
-            default:
-                break;
     }
-    currScore = IntTo4DigitsStr(Math.ceil(score*multiplier));
-    localStorage.setItem('anonymous',currScore);
-    document.querySelector('.score-board .score').innerText = currScore;
+
+    if(currScore > parseInt(document.querySelector('.score-board .score').innerText)){
+        currScore = Math.ceil(balancer/currScore);
+        
+        document.querySelector('.score-board .score').innerText = IntTo4DigitsStr(currScore);
+        localStorage.setItem('anonymous',IntTo4DigitsStr(currScore));
+    }
 }
 

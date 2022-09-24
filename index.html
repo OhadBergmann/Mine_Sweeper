@@ -20,8 +20,8 @@
         </div>
         <div class="game-name">Mine Sweeper</div>
         
-        <div class="smiley start">
-            <img onclick="initGame()" src="img/Smiley-start.png" alt=":)">
+        <div class="smiley">
+            <img onclick="initGame()" src="img/Smiley-happy.png" alt=":)">
         </div>
 
         <div class="selection-panel left">
@@ -38,10 +38,10 @@
             <div class="mode-str">Standard</div>
         </div>
 
-        <div class="table-area easy">
+        <div class="table-area easy" onmouseenter="switchSmiley('enter')" onmouseleave="switchSmiley('exit')">
         </div>
         
-        <div class="bank mines"> 
+        <div class="bank mines" > 
             <div class="mine-txt">
                 Mines <br> Bank
             </div>
@@ -61,7 +61,7 @@
 
             </table>
         </div>
-        <div class="Status"></div>
+        <div class="status"></div>
 
     </div>
     
