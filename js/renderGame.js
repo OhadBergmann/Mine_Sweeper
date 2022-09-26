@@ -139,7 +139,28 @@ function visualEffects(){
                 hearts[i].classList.add('beat') 
             }
         }
-    },1050);
+    },2050);
+
+    setSounds();
+}
+
+function setSounds (){
+    gModel.sounds = {};
+    gModel.sounds.plop1 = new Audio('sound/plop-1.wav');
+    gModel.sounds.plop2 = new Audio('sound/plop-2.wav');
+    gModel.sounds.explosion = new Audio('sound/explosion.wav');
+    gModel.sounds.flagInOut = new Audio('sound/flag-in-out.wav');
+}
+
+function playRandomPlop (){
+    var randomNum =  Math.floor(Math.random()*2);
+
+    if(randomNum === 1){
+        gModel.sounds.plop1.play();
+        return;
+    }
+
+    gModel.sounds.plop2.play();
 }
 
 function changeDiff(bool){

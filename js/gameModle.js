@@ -4,22 +4,24 @@ var gModel = {};
 gModel.gameOptions = {difficulty: 'Easy', mode: 'Standard'};
 
 function initGame (){
+    document.body.style.backgroundImage ='url(\'img/mines-background-img.png\')';
     clearDOM();
     resetVariables(gModel.gameOptions);
     gModel.board = buildBoard();
     handdleGameOptions();
+    visualEffects();
 
     if(!gModel.isManual){
         randerBoard();
         layMines ( gModel.level.minesNum);
         gainLife(3);
-        visualEffects();
         }
     else {
         randerBoard();
     }
+
     gModel.selectors.elStatus.innerHTML = '';
-    disableContextMenu();     
+    disableContextMenu();
 }
 
 
@@ -133,6 +135,7 @@ function cellClicked(element){
             gModel.selectors.elMineNum.innerText = +gModel.selectors.elMineNum.innerText -1;
             currCell.isMine = true;
             updateCellNegs (currPos);
+            playRandomPlop();
             return;
 
         }else if(gModel.ManualMinesNum === 1 ){
@@ -142,6 +145,7 @@ function cellClicked(element){
             currCell.isMine = true;
             updateCellNegs (currPos);
             coveredAllCells();
+            playRandomPlop();
             return;
         }
     }
@@ -160,6 +164,8 @@ function toggleCellFlag (element){
     var currCell = gModel.board[currPos.i][currPos.j];
 
     if(currCell.isVisible) return;
+    
+    gModel.sounds.flagInOut.play();
 
     if(currCell.hasFlag){
         currCell.hasFlag = false;
@@ -246,8 +252,10 @@ function checkGameOver(element) {
         element.innerHTML = '<img src="img/cell-mine.png">';
         gModel.selectors.elStatus.innerHTML = 'GAME OVER';
         gModel.selectors.elTimer.innerText = IntTo4DigitsStr(0);
-        
+        gModel.sounds.explosion.play();
+        return;
     }
+    playRandomPlop();
 }
 
 

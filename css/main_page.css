@@ -1,6 +1,5 @@
 body{
     background-color:rgb(30 103 114); 
-    background-image: url('/img/mines-background-img.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -251,7 +250,7 @@ body{
 
 .row2{
     top: 310px; 
-    transition: 1.1s; 
+    transition: 2.1s; 
 }
 
 .life img{
@@ -266,14 +265,14 @@ body{
 
 .row3{
     top: 410px;
-    transition: 1.05s;  
+    transition: 2.2s;  
 }
 
 /* ------- ------- ------- page element row 4 ------- ------- ------- */
 
 .row4{
     top: 515px;
-    transition: 1.0s;  
+    transition: 2.0s;  
 }
 
 /* ------- ------- ------- page element row 5 ------- ------- ------- */
@@ -328,6 +327,14 @@ body{
 
 
 
-
+footer{
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    height: 50px;
+    width:100%;
+    border-top: 4px rgb(80, 80, 80) groove;
+    background-color: rgb(25, 40, 57);
+}
 
 
