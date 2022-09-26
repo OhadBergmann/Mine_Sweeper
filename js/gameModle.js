@@ -12,6 +12,8 @@ function initGame (){
     if(!gModel.isManual){
         randerBoard();
         layMines ( gModel.level.minesNum);
+        gainLife(3);
+        visualEffects();
         }
     else {
         randerBoard();
@@ -157,7 +159,7 @@ function toggleCellFlag (element){
     var currPos = cellPosFromElement(element);
     var currCell = gModel.board[currPos.i][currPos.j];
 
-    if(currCell.isVisible) {return;}
+    if(currCell.isVisible) return;
 
     if(currCell.hasFlag){
         currCell.hasFlag = false;
@@ -165,13 +167,14 @@ function toggleCellFlag (element){
         gModel.flagsCount++;
         gModel.selectors.elFlagsNum.innerText = gModel.flagsCount; 
 
-    } else {
+    } else if(gModel.flagsCount > 0) {
         currCell.hasFlag = true;
         element.innerHTML = '<img src="img/cell-covered-n-flaged.png">';
         gModel.flagsCount--;
-        gModel.selectors.elFlagsNum.innerText = gModel.flagsCount; 
-        if(gModel.flagsCount <= 0){ playerIsVictorious()}
+        gModel.selectors.elFlagsNum.innerText = gModel.flagsCount;    
     }
+
+    if(gModel.flagsCount <= 0)playerIsVictorious();
 }
 
 
@@ -235,7 +238,8 @@ function checkGameOver(element) {
     if(!gModel.timerIntervalID) startTimer(); 
     
     if(currCell.isMine){
-        clearInterval(gModel.timerIntervalID); 
+        clearInterval(gModel.timerIntervalID);
+        clearInterval( gModel.effectsIntervalID); 
         gModel.isRunningGame = false;
         switchSmiley('lose');
         gModel.selectors.elStatus.classList.add('over');
@@ -252,9 +256,10 @@ function playerIsVictorious (){
 
     if(gModel.flagsCount === 0 && gModel.safecellsCount === gModel.visiblesCounter){
         clearInterval(gModel.timerIntervalID);
+        clearInterval( gModel.effectsIntervalID);
         gModel.isRunningGame = false;
 
-        updateScoure(gModel.selectors.elTimer.innerText);
+        updateScoure(+gModel.selectors.elTimer.innerText);
         switchSmiley('win');
         gModel.selectors.elStatus.innerHTML = 'You are Victorious';
         gModel.selectors.elTimer.innerText = IntTo4DigitsStr(0); 
@@ -278,6 +283,14 @@ function layMines (num){
     }
 }
     
+function gainLife(num){
+    var elCurr;
+    if(num <= 3 && num > 0){
+        elCurr = document.querySelector('.life.row' + (1 + num));
+        elCurr.innerHTML = '<img src="img/good-heart.png">'
+        gainLife(num -1);
+    }
+}
 
 
 function isCellEmpty(pos){
@@ -293,7 +306,6 @@ function isCellEmpty(pos){
 function startTimer(){
     var lastDate = new Date();
     var CurrDate;
-
     gModel.timerIntervalID = setInterval(()=>{
         CurrDate = new Date();
 
@@ -307,38 +319,27 @@ function startTimer(){
 
 
 
-function IntTo4DigitsStr(num){
-    var str = num + '';
-    if(str.length >= 4) return;
+function updateScoure (secs){
+    var currScore = 0; 
+    var difficultyMultiplier = 1 ;
 
-    while(str.length < 4){
-        str = '0' + str
-    }
-    return str;
-}
-
-
-
-function updateScoure (score){
-    var currScore = score + 1;
-    var balancer = 1000;
     switch(gModel.gameOptions.difficulty){
         case 'Easy':
-            balancer *= 1;
+            difficultyMultiplier = 1.5;
             break;
         case 'Medium':
-            balancer = 1.3;
+            difficultyMultiplier = 3;
             break;
         case 'Hard':
-            balancer = 2;
+            difficultyMultiplier = 5;
             break;
     }
 
-    if(currScore > parseInt(document.querySelector('.score-board .score').innerText)){
-        currScore = Math.ceil(balancer/currScore);
-        
+    currScore = Math.ceil((1370/(secs+1))*difficultyMultiplier) ;
+    console.log('secs', secs);
+    console.log('currScore', currScore);
+    if(currScore > +(document.querySelector('.score-board .score').innerText)){
         document.querySelector('.score-board .score').innerText = IntTo4DigitsStr(currScore);
-        localStorage.setItem('anonymous',IntTo4DigitsStr(currScore));
     }
 }
 

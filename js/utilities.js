@@ -1,5 +1,16 @@
 'use strict'
 
+function IntTo4DigitsStr(num){
+    var str = num + '';
+    if(str.length >= 4) return str;
+
+    while(str.length < 4){
+        str = '0' + str
+    }
+    return str;
+}
+
+
 function cellPosFromElement (element){
     var dataStr = element.dataset.pos.split('-');
     return{i: +dataStr[0],j: +dataStr[1]}

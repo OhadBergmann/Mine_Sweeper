@@ -129,7 +129,18 @@ function handdleGameOptions (){
     }
 }
 
-
+function visualEffects(){
+    gModel.effectsIntervalID = setInterval(()=>{
+        var hearts = document.querySelectorAll('.life');
+        for (let i = 0; i < hearts.length; i++) {
+            if(hearts[i].classList.contains('beat')){
+                hearts[i].classList.remove('beat')
+            } else{
+                hearts[i].classList.add('beat') 
+            }
+        }
+    },1050);
+}
 
 function changeDiff(bool){
 
