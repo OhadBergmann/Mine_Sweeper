@@ -149,7 +149,7 @@ function setSounds (){
     gModel.sounds.plop1 = new Audio('sound/plop-1.wav');
     gModel.sounds.plop2 = new Audio('sound/plop-2.wav');
     gModel.sounds.explosion = new Audio('sound/explosion.wav');
-    gModel.sounds.flagInOut = new Audio('sound/flag-in-out.wav');
+    gModel.sounds.flagIt = new Audio('sound/flagIt.wav');
 }
 
 function playRandomPlop (){
@@ -233,16 +233,16 @@ function changeMode(bool){
 function switchSmiley(str){
     switch (str) {
         case 'start':
-            gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/Smiley-happy.png" alt=":)">';
+            gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/smiley-happy.png" alt=":)">';
            
         case 'enter':
             if(gModel.isRunningGame){
-                gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/Smiley-fear.png" alt=":)">';
+                gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/smiley-fear.png" alt=":)">';
             }
                 break;
         case 'exit':
             if(gModel.isRunningGame){
-                gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/Smiley-happy.png" alt=":)">';
+                gModel.selectors.elSmiley.innerHTML = '<img onclick="initGame()" src="img/smiley-happy.png" alt=":)">';
             }
                 break;
         case 'lose':

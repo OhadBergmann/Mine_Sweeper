@@ -165,7 +165,7 @@ function toggleCellFlag (element){
 
     if(currCell.isVisible) return;
     
-    gModel.sounds.flagInOut.play();
+    gModel.sounds.flagIt.play();
 
     if(currCell.hasFlag){
         currCell.hasFlag = false;
