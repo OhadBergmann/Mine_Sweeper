@@ -3,9 +3,10 @@
 var gModel = {};
 gModel.gameOptions = {difficulty: 'Easy', mode: 'Standard'};
 
+
 function initGame (){
     document.body.style.backgroundImage ='url(\'img/mines-background-img.png\')';
-    clearDOM();
+    cleaStatusMassage();
     resetVariables(gModel.gameOptions);
     gModel.board = buildBoard();
     handdleGameOptions();
@@ -14,7 +15,7 @@ function initGame (){
     if(!gModel.isManual){
         randerBoard();
         layMines ( gModel.level.minesNum);
-        gainLife(3);
+        gainLife(gModel.playerLives);
         }
     else {
         randerBoard();
@@ -27,7 +28,6 @@ function initGame (){
 
 
 function resetVariables(gameoptions) {
-    gModel = {};
     var size = 4;
     var amount = 2;
 
@@ -60,6 +60,11 @@ function resetVariables(gameoptions) {
             break;
     }
 
+    if(!gModel.isRunningGame){ 
+        removePlayerdeath();
+        gModel.playerLives = 3;
+     }
+    
     gModel.isRunningGame = true;
     gModel.visiblesCounter = 0;
     gModel.flagsCount = amount;
@@ -73,6 +78,7 @@ function resetVariables(gameoptions) {
     };
     gModel.ManualMinesNum = amount;
     gModel.safecellsCount = size*size - amount;
+    
 }
 
 
@@ -126,7 +132,7 @@ function cellClicked(element){
     var currCell = gModel.board[currPos.i][currPos.j];
     
     if(currCell.hasFlag) return;
-   
+
     if(gModel.isManual && gModel.ManualMinesNum > 0){
 
         if(gModel.ManualMinesNum > 1){
@@ -154,7 +160,6 @@ function cellClicked(element){
 
     updateCell(element);
     if(isCellEmpty(currPos)) uncoverdNegs(cellPosFromElement(element));
-    checkGameOver(element);
 }
 
 
@@ -165,7 +170,7 @@ function toggleCellFlag (element){
 
     if(currCell.isVisible) return;
     
-    gModel.sounds.flagIt.play();
+   
 
     if(currCell.hasFlag){
         currCell.hasFlag = false;
@@ -179,7 +184,7 @@ function toggleCellFlag (element){
         gModel.flagsCount--;
         gModel.selectors.elFlagsNum.innerText = gModel.flagsCount;    
     }
-
+    gModel.sounds.flagIt.play();
     if(gModel.flagsCount <= 0)playerIsVictorious();
 }
 
@@ -188,11 +193,12 @@ function toggleCellFlag (element){
 function updateCell(element) {
     var currPos = cellPosFromElement(element);
     var currCell = gModel.board[currPos.i][currPos.j];
+
     currCell.isVisible = true;
     gModel.visiblesCounter++;
     randerCell(currPos);
     checkGameOver(element);
-    playerIsVictorious ();
+    if(!currCell.isMine) playerIsVictorious ();
 }
 
 
@@ -244,17 +250,29 @@ function checkGameOver(element) {
     if(!gModel.timerIntervalID) startTimer(); 
     
     if(currCell.isMine){
-        clearInterval(gModel.timerIntervalID);
-        clearInterval( gModel.effectsIntervalID); 
-        gModel.isRunningGame = false;
-        switchSmiley('lose');
-        gModel.selectors.elStatus.classList.add('over');
-        element.innerHTML = '<img src="img/cell-mine.png">';
-        gModel.selectors.elStatus.innerHTML = 'GAME OVER';
-        gModel.selectors.elTimer.innerText = IntTo4DigitsStr(0);
-        gModel.sounds.explosion.play();
-        return;
-    }
+        if( gModel.playerLives === 1){
+            removePlayerLife();
+            clearInterval(gModel.timerIntervalID);
+            clearInterval( gModel.effectsIntervalID); 
+            gModel.isRunningGame = false;
+            switchSmiley('lose');
+            gModel.selectors.elStatus.classList.add('over');
+            element.innerHTML = '<img src="img/cell-mine.png">';
+            gModel.selectors.elStatus.innerHTML = 'GAME OVER';
+            gModel.selectors.elTimer.innerText = IntTo4DigitsStr(0);
+            gModel.sounds.explosion.play();
+            return;
+        } else if ( gModel.playerLives > 1){
+            switchSmiley('lose');
+            element.innerHTML = '<img src="img/cell-mine.png">';
+            gModel.sounds.explosion.play();
+            
+            setTimeout(()=>{
+                removePlayerLife();
+                initGame ();
+           },300)
+        }
+    } 
     playRandomPlop();
 }
 
@@ -295,7 +313,7 @@ function gainLife(num){
     var elCurr;
     if(num <= 3 && num > 0){
         elCurr = document.querySelector('.life.row' + (1 + num));
-        elCurr.innerHTML = '<img src="img/good-heart.png">'
+        elCurr.innerHTML = '<img src="img/good-heart.png">';
         gainLife(num -1);
     }
 }

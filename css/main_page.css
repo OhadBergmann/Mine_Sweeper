@@ -247,6 +247,15 @@ body{
     left: 512px;
 }
 
+.death{
+    position: absolute;
+    height: 75px;
+    width: 75px;
+    background-color: rgba(255, 255, 255,0);
+    left: 512px;
+    transform: scale(0.7);
+}
+
 
 .row2{
     top: 310px; 
@@ -260,6 +269,11 @@ body{
 
 .life.beat{
     transform: scale(1.1);
+}
+
+.death img{
+    height: 75px;
+    width: 75px;
 }
 /* ------- ------- ------- page element row 3 ------- ------- ------- */
 

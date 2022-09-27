@@ -149,7 +149,7 @@ function setSounds (){
     gModel.sounds.plop1 = new Audio('sound/plop-1.wav');
     gModel.sounds.plop2 = new Audio('sound/plop-2.wav');
     gModel.sounds.explosion = new Audio('sound/explosion.wav');
-    gModel.sounds.flagIt = new Audio('sound/flagIt.wav');
+    gModel.sounds.flagIt = new Audio('sound/flag-in-out.wav');
 }
 
 function playRandomPlop (){
@@ -255,8 +255,26 @@ function switchSmiley(str){
 }
 
 
+function removePlayerLife(){
+    gModel.playerLives--;
+    var hearts = document.querySelectorAll('.life');
+    hearts[(hearts.length - 1)].classList.add('death');
+    hearts[(hearts.length - 1)].classList.remove('life');
+      hearts[(hearts.length - 1)].classList.remove('beat');
+    hearts[(hearts.length - 1)].innerHTML = '<img src="img/dead-heart.png">';
+}
 
-function clearDOM (){
+function removePlayerdeath(){
+    var hearts = document.querySelectorAll('.death');
+    if(hearts.length > 0){
+        for (let i = 0; i < hearts.length; i++) {
+            hearts[i].classList.add('life');
+            hearts[i].classList.remove('death');  
+        }
+    } 
+}
+
+function cleaStatusMassage (){
     if(gModel.selectors !== undefined){
         switchSmiley('happy');
         gModel.selectors.elStatus.classList.remove('over');
